@@ -8,7 +8,7 @@ function ItemCard({ uniqueKey, itemNumber, item, editItem }) {
     useContext(Context);
   const deleteItem = async () => {
     const res = await axios.delete(
-      `http://localhost:5000/deletetodo/${uniqueKey}`
+      `http://localhost:5000/todo/deletetodo/${uniqueKey}`
     );
     setChangefound(!changefound);
   };

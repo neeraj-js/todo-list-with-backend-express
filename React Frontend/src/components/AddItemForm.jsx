@@ -6,6 +6,7 @@ import {
   Stack,
   InputLabel,
   TextField,
+  Box,
   Button,
 } from "@mui/material";
 import axios from "axios";
@@ -15,17 +16,20 @@ function AddItemList() {
     useContext(Context);
 
   const addItemToList = async (item) => {
-    const res = await axios.post("http://localhost:5000/addtodo", {
-      name: item,
+    console.log(localStorage.getItem("userid"));
+    const res = await axios.post("http://localhost:5000/todo/create-todo", {
+      tododescription: item,
+      userid: +localStorage.getItem("userid"),
     });
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
+    console.log("hi");
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     const item = data.get("newItem");
 
-    addItemToList(item);
+    await addItemToList(item);
     setChangefound(!changefound);
   };
 
@@ -33,19 +37,15 @@ function AddItemList() {
     <>
       <Container maxWidth="lg">
         <Grid container justifyContent="center" marginTop={5}>
-          <Stack
-            component="form"
-            onSubmit={handleSubmit}
-            direction="row"
-            alignItems="center"
-            spacing={3}
-          >
-            <InputLabel>Add new Item</InputLabel>
-            <TextField name="newItem" type="text" />
-            <Button type="submit" variant="contained">
-              Add
-            </Button>
-          </Stack>
+          <Box component="form" onSubmit={handleSubmit}>
+            <Stack direction="row" alignItems="center" spacing={3}>
+              <InputLabel>Add new Item</InputLabel>
+              <TextField name="newItem" type="text" />
+              <Button type="submit" variant="contained">
+                Add
+              </Button>
+            </Stack>
+          </Box>
         </Grid>
       </Container>
     </>

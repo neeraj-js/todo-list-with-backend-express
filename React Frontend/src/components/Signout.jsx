@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 function Signout() {
   const navigate = useNavigate();
   const logout = () => {
-    localStorage.setItem("isAuthenticated", false);
+    localStorage.clear();
     navigate("/");
   };
   return (

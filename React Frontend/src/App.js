@@ -5,6 +5,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import Signin from "./components/signin";
 import Protected from "./components/Protected";
 import Signout from "./components/Signout";
+import Signup from "./components/signup";
 
 export const Context = createContext();
 
@@ -25,7 +26,7 @@ function App() {
         items,
         setItems,
         flag,
-        setflag,
+        setflag,  
         changefound,
         setChangefound,
       }}
@@ -41,6 +42,8 @@ function App() {
           <Route path="/*" element={<h1>404 not found</h1>}>
             {" "}
           </Route>
+          <Route path="/signup" element={<Signup />} /> 
+
           <Route
             path="/todo"
             element={

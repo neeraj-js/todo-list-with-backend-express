@@ -5,23 +5,33 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 function Signin() {
-  let email = "";
-  let password = "";
-  const handleSubmit = (event) => {
+  const navigate = useNavigate();
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-
-    email = data.get("email");
-    password = data.get("password");
-  };
-  const navigate = useNavigate();
-  const login = () => {
-    if (email === "carestack" && password === "carestack123") {
+    let email = data.get("email");
+    let password = data.get("password");
+    const log = await axios.post(`http://localhost:5000/user/authenticate`, {
+      username: email,
+      password: password,
+    });
+    console.log(log);
+    if (log.data.keystatus === false) {
+      alert("invalid credentials");
+    } else if (log.data.keystatus === true) {
+      const user = log.data.id;
       localStorage.setItem("isAuthenticated", true);
+      localStorage.setItem("userid", user);
       navigate("/todo");
     }
+  };
+
+  // const login = async () => {};
+  const signup = () => {
+    navigate("/signup");
   };
 
   return (
@@ -70,9 +80,18 @@ function Signin() {
               fullWidth
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
-              onClick={login}
+              // onClick={login}
             >
               Log In
+            </Button>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+              onClick={signup}
+            >
+              New User? Sign-up
             </Button>
           </Box>
         </Box>

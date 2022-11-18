@@ -21,9 +21,11 @@ function Edittab(props) {
     const data = new FormData(event.currentTarget);
     const item = data.get("newItem");
     console.log(item);
-    const res = await axios.put(
-      `http://localhost:5000/edittodo/${props.uniquekey}`,
-      { name: item }
+    const res = await axios.patch(
+      `http://localhost:5000/todo/edittodo/${props.uniquekey}`,
+      {
+        tododescription: item,
+      }
     );
     setflag(false);
     setChangefound(!changefound);

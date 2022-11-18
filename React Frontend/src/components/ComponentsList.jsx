@@ -16,13 +16,14 @@ function ComponentList() {
   useEffect(() => {
     async function fetchdata() {
       const response = await gettododata();
-      setdata(response.data.data);
+      setdata(response.data);
     }
     fetchdata();
   }, [changefound]);
 
   const gettododata = async () => {
-    return await axios.get("http://localhost:5000/tododetails");
+    const userid = localStorage.getItem("userid");
+    return await axios.get(`http://localhost:5000/todo/todo-lists/${userid}`);
   };
 
   const editItem = (key) => {
@@ -41,7 +42,7 @@ function ComponentList() {
               key={index}
               itemNumber={index + 1}
               uniqueKey={item.id}
-              item={item.itemname}
+              item={item.tododescription}
               editItem={editItem}
             />
           ))}
